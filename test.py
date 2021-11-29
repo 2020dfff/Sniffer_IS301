@@ -11,7 +11,6 @@ import pcap
 # -*- encoding:utf-8 -*-
 
 import dpkt
- 
 import getopt
 import sys
 import datetime
@@ -116,9 +115,8 @@ def main():
     if 'Windows' in platform.platform():
         iface = getInterfaceByName('Router')
     else:
-        iface = 'enp2s0'
+        iface = 'ens33'
     captureData(iface)
  
 if __name__ == "__main__":
     main()
-复制代码
