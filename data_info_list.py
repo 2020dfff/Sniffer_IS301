@@ -7,6 +7,7 @@ class data_info_list():
         self.len_list = []
         self.layer_list = []
         self.field_list = []
+        self.packet_list = []
 
     def append_src_list(self, src):
         self.src_list.append(src)
@@ -25,3 +26,6 @@ class data_info_list():
 
     def append_field_list(self, field):
         self.field_list.append(field)
+
+    def append_packet_list(self, packet):
+        self.packet_list.append(packet)
