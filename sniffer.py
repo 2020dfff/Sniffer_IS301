@@ -20,10 +20,11 @@ class sniffer():
     def packetHandler(self, pkt):
         if(IP in pkt):
             if(self.check_merge(pkt)):
-                return
+               return
             
-            if(pkt['IP'].flags != 'DF'):
+            if(pkt['IP'].flags == 'MF'):
                 self.add_to_frag_set(pkt)
+                # print(pkt['IP'].flags)
                 return
 
             self.window.m_data_info_list.append_src_list(pkt['IP'].src)
@@ -33,8 +34,11 @@ class sniffer():
         else:
             return
 
+
         try:
-            tmp = codecs.decode(bytes(pkt.load).hex(), "hex")
+            # tmp = codecs.decode(bytes(pkt.load).hex(), "hex")
+            # print(pkt[Raw].load.decode('GB2312'))
+            print(pkt[Raw].load[10:].decode('GB2312'))
             # print(tmp.decode('utf-8'))
             # print(tmp.decode('GB2312'))
         except:
@@ -65,6 +69,7 @@ class sniffer():
 
     def add_to_frag_set(self, pkt):
         self.frag_set.append([pkt])
+        return
 
     def check_merge(self, pkt):
         for i in self.frag_set:
