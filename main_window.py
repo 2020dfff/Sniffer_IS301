@@ -221,8 +221,8 @@ class main_window(QWidget):
 
     def keyPressEvent(self, event):
         if(event.key() ==  16777220):
-            print("1:" + self.source.text())
-            # self.update_parameter()
+            # print("1:" + self.source.text())
+            self.update_parameter()
 
     def closeEvent(self, event):
         self.close_flag = True
