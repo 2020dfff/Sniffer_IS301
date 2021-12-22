@@ -50,8 +50,10 @@ class main_window(QWidget):
         # label_nic.setText("NIC")
         
         self.combo_box_nic = QtWidgets.QComboBox()
-        self.combo_box_nic.addItem(netifaces.interfaces()[0])
-        self.combo_box_nic.addItem(netifaces.interfaces()[1])
+        for item in netifaces.interfaces():
+            self.combo_box_nic.addItem(item)
+        # self.combo_box_nic.addItem(netifaces.interfaces()[0])
+        # self.combo_box_nic.addItem(netifaces.interfaces()[1])
         
         self.on_off_button = QPushButton("Start")
         self.on_off_button.clicked.connect(self.on_off)
@@ -178,6 +180,9 @@ class main_window(QWidget):
     def on_off(self):
         if(self.m_sniffer.on_off_flag == 0):
             # self.on_off_flag = 1;
+            self.m_data_info_list.clear()
+            # self.data_info_table.clearContents()
+            # self.data_info_table.setHorizontalHeaderLabels(["No", "Time", "Source Address", "Destination Address", "Length", "Protocal"])
             self.m_sniffer.on_off_flag = 1;
             self.on_off_button.setText("Stop")
             # t = threading.Thread(target=self.begin_sniff)
@@ -186,6 +191,9 @@ class main_window(QWidget):
         else:
             self.on_off_button.setText("Start")
             self.m_sniffer.on_off_flag = 0;
+            # send end packet
+            send(IP(dst = '127.0.0.1')/ICMP())
+            send(IP(dst = '220.181.38.251')/ICMP())
             # self.on_off_flag = 0;
 
     def display_detail_info(self):
@@ -234,4 +242,4 @@ class main_window(QWidget):
     def closeEvent(self, event):
         self.close_flag = True
         self.m_sniffer.on_off_flag = 0
-        time.sleep(0.5)
+        # time.sleep(0.5)

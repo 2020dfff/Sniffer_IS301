@@ -53,3 +53,18 @@ class data_info_list():
     
     def append_time_list(self, time):
         self.time_list.append(time)
+
+    def clear(self):
+        self.src_list = []
+        self.src_port_list = []
+        self.dst_list = []
+        self.dst_port_list = []
+        self.pro_list = []
+        self.len_list = []
+        self.layer_list = []
+        self.field_list = []
+        self.packet_list = []
+        self.detail_info_utf8_list = []
+        self.detail_info_gb_list = []
+        self.hex_list = []
+        self.time_list = []

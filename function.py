@@ -58,6 +58,7 @@ def data_info_table_listener(window):
     latest_dst = window.parameter_dst
     latest_dst_port = window.parameter_dst_port
     latest_search_text  = window.search_text
+    latest_on_off_flag = window.m_sniffer.on_off_flag
 
     while(True):
         if(window.close_flag == True):
@@ -72,9 +73,17 @@ def data_info_table_listener(window):
             latest_dst = window.parameter_dst
             latest_dst_port = window.parameter_dst_port
             latest_search_text = window.search_text
-            window.data_info_table.clear()
-            window.data_info_table.setHorizontalHeaderLabels(["No", "Time", "Source Address", "Destination Address", "Length", "Protocal"])
+            window.data_info_table.clearContents()
+            # window.data_info_table.setHorizontalHeaderLabels(["No", "Time", "Source Address", "Destination Address", "Length", "Protocal"])
         
+        if(latest_on_off_flag != window.m_sniffer.on_off_flag and latest_on_off_flag == 0):
+            cur_num = 0
+            row_num = 0
+            latest_on_off_flag = window.m_sniffer.on_off_flag
+            window.data_info_table.clearContents()
+        elif(latest_on_off_flag != window.m_sniffer.on_off_flag):
+            latest_on_off_flag = window.m_sniffer.on_off_flag
+
         if(cur_num < len(window.m_data_info_list.src_list)):
             if(check_invalid(window, latest_pro, latest_src, latest_src_port, latest_dst, latest_dst_port, cur_num)):
                 cur_num = cur_num + 1 
@@ -87,7 +96,6 @@ def data_info_table_listener(window):
             window.data_info_table.insertRow(row_num)
             # tmp_time = time.time() - window.start_time
             # tmp_time = round(tmp_time, 4)
-
             window.data_info_table.setItem(row_num, 0, QTableWidgetItem(str(cur_num)))
             window.data_info_table.setItem(row_num, 1, QTableWidgetItem(str(window.m_data_info_list.time_list[cur_num])))
             window.data_info_table.setItem(row_num, 2, QTableWidgetItem(str(window.m_data_info_list.src_list[cur_num])))

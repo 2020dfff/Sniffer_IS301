@@ -17,6 +17,7 @@ class sniffer():
 
     def begin_sniff(self, window):
         self.window = window
+        self.interface = window.combo_box_nic.currentText()
         window.start_time = time.time()
         sniff(iface = self.interface, prn = self.packetHandler, stop_filter = self.is_off)
         print("sniffer finished.")
@@ -106,6 +107,7 @@ class sniffer():
         self.count = self.count + 1
 
     def is_off(self, pkt):
+        # print(self.on_off_flag)
         if(self.on_off_flag == 0):
             return True
         return False
