@@ -1,6 +1,7 @@
 import sys
 import threading
 from scapy.all import *
+from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton,QHBoxLayout, QVBoxLayout, QGridLayout, QTableWidgetItem, QTabWidget
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QAbstractItemView
@@ -17,6 +18,7 @@ class main_window(QWidget):
     def __init__(self):
         super().__init__()
         # self.on_off_flag = 0
+        self.close_flag = False
         self.m_data_info_list = data_info_list()
         self.m_sniffer = sniffer()
         # self.src_list = []
@@ -101,7 +103,10 @@ class main_window(QWidget):
         self.data_info_layout = QHBoxLayout()
         
         self.data_info_table = QtWidgets.QTableWidget()
+        self.data_info_table.setShowGrid(False)
+        self.data_info_table.horizontalHeader().setStretchLastSection(True)
         self.data_info_table.setColumnCount(6)
+        self.data_info_table.verticalHeader().setVisible(False)
         self.data_info_table.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.data_info_table.setHorizontalHeaderLabels(["No", "Time", "Source Address", "Destination Address", "Length", "Protocal"])
         self.data_info_table.setColumnWidth(0, 60);
@@ -117,12 +122,14 @@ class main_window(QWidget):
         # t = threading.Thread(target=self.data_info_table_listener)
         t = threading.Thread(target = data_info_table_listener, args=(self,))
         t.start()
+        # t.join()
 # end of fourth row
 
 # fifth row of main_layout
         self.layer_info_layout = QHBoxLayout()
         
         self.layer_info_tab = QtWidgets.QTabWidget()
+        self.layer_info_tab.setFont(QFont('Consolas', 10, QFont.Normal))
         
         self.layer_info_layout.addWidget(self.layer_info_tab)
 
@@ -133,10 +140,15 @@ class main_window(QWidget):
 
 # sixth row of main_layout
 # detail information like header of packet
-        self.detail_layout = QHBoxLayout()
+        
+        self.detail_layout = QVBoxLayout()
 
-        self.detail_of_packet = QtWidgets.QTextBrowser()
-
+        self.detail_label = QtWidgets.QLabel("Detail Information")
+        # self.detail_of_packet = QtWidgets.QTextBrowser()
+        self.detail_of_packet = QtWidgets.QTabWidget()
+        self.detail_of_packet.setFont(QFont('Consolas', 10, QFont.Light))
+        
+        self.detail_layout.addWidget(self.detail_label)
         self.detail_layout.addWidget(self.detail_of_packet)
 # end of sixth row
 
@@ -148,7 +160,7 @@ class main_window(QWidget):
         self.main_layout.addLayout(self.detail_layout, 5, 0)
 
         self.setLayout(self.main_layout)
-        self.setGeometry(300, 300, 815, 600)
+        self.setGeometry(300, 300, 815, 800)
         self.setWindowTitle("Network")
         self.show()
 
@@ -168,6 +180,7 @@ class main_window(QWidget):
     def display_detail_info(self):
         num = self.data_info_table.selectedItems()[0].row()
         self.layer_info_tab.clear()
+        self.detail_of_packet.clear()
 
         i = 0
         for x in self.m_data_info_list.layer_list[num]:
@@ -175,8 +188,24 @@ class main_window(QWidget):
             for key,value in self.m_data_info_list.field_list[num][i].items():
                 temp_tab_text.append(str(key) + ":   " + str(value))
 
-            # temp_tab_text.setText(str(self.m_data_info_list.field_list[num][i]))
             self.layer_info_tab.addTab(temp_tab_text, x)
             i = i + 1
+        
+        temp_tab_text = QtWidgets.QTextBrowser()
+        print(self.m_data_info_list.hex_list[0])
+        temp_tab_text.setText(self.m_data_info_list.hex_list[num])
+        self.layer_info_tab.addTab(temp_tab_text, "Whole in Hex")
 
-        self.detail_of_packet.setText(self.m_data_info_list.detail_info_gb_list[num])
+        temp_tab_text = QtWidgets.QTextBrowser()
+        temp_tab_text.setText(self.m_data_info_list.detail_info_utf8_list[num])
+        self.detail_of_packet.addTab(temp_tab_text, "utf-8")
+        
+        temp_tab_text = QtWidgets.QTextBrowser()
+        temp_tab_text.setText(self.m_data_info_list.detail_info_gb_list[num])
+        self.detail_of_packet.addTab(temp_tab_text, "GB2312")
+        # self.detail_of_packet.setText(self.m_data_info_list.detail_info_gb_list[num])
+
+    def closeEvent(self, event):
+        self.close_flag = True
+        self.m_sniffer.on_off_flag = 0
+        time.sleep(0.5)

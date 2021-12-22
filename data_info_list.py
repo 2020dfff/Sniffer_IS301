@@ -2,7 +2,9 @@ class data_info_list():
 
     def __init__(self):
         self.src_list = []
+        self.src_port_list = []
         self.dst_list = []
+        self.dst_port_list = []
         self.pro_list = []
         self.len_list = []
         self.layer_list = []
@@ -10,12 +12,19 @@ class data_info_list():
         self.packet_list = []
         self.detail_info_utf8_list = []
         self.detail_info_gb_list = []
+        self.hex_list = []
 
     def append_src_list(self, src):
         self.src_list.append(src)
+    
+    def append_src_port_list(self, src_port):
+        self.src_port_list.append(src_port)
 
     def append_dst_list(self, dst):
         self.dst_list.append(dst)
+
+    def append_dst_port_list(self, dst_port):
+        self.dst_port_list.append(dst_port)
 
     def append_pro_list(self, pro):
         self.pro_list.append(pro)
@@ -37,4 +46,7 @@ class data_info_list():
 
     def append_detail_info_gb_list(self, detail_info):
         self.detail_info_gb_list.append(detail_info)
+
+    def append_hex_list(self, hex_):
+        self.hex_list.append(hex_)
 

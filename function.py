@@ -13,6 +13,9 @@ dict_pro = {0: 'HOPOPT', 1: 'ICMP', 2: 'IGMP', 3: 'GGP', 4: 'IP-in-IP', 5: 'ST',
 def data_info_table_listener(window):
     cur_num = 0
     while(True):
+        if(window.close_flag == True):
+            break
+
         if(cur_num < len(window.m_data_info_list.src_list)):
             window.data_info_table.insertRow(cur_num)
             tmp_time = time.time() - window.start_time
@@ -25,3 +28,5 @@ def data_info_table_listener(window):
             window.data_info_table.setItem(cur_num, 4, QTableWidgetItem(str(window.m_data_info_list.len_list[cur_num])))
             window.data_info_table.setItem(cur_num, 5, QTableWidgetItem(str(dict_pro[window.m_data_info_list.pro_list[cur_num]])))
             cur_num = cur_num + 1
+
+    print("data_info_table_listener finished!")
