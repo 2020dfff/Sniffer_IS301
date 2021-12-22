@@ -27,6 +27,7 @@ class main_window(QWidget):
         self.parameter_src_port = ''
         self.parameter_dst = ''
         self.parameter_dst_port = ''
+        self.search_text = ''
         # self.src_list = []
         # self.dst_list = []
         # self.pro_list = []
@@ -198,7 +199,7 @@ class main_window(QWidget):
             i = i + 1
         
         temp_tab_text = QtWidgets.QTextBrowser()
-        print(self.m_data_info_list.hex_list[0])
+        # print(self.m_data_info_list.hex_list[0])
         temp_tab_text.setText(self.m_data_info_list.hex_list[num])
         self.layer_info_tab.addTab(temp_tab_text, "Whole in Hex")
 
@@ -217,10 +218,7 @@ class main_window(QWidget):
         self.parameter_src_port = self.source_port.text()
         self.parameter_dst = self.dst.text()
         self.parameter_dst_port = self.dst_port.text()
-        print("Yes")
-        print(self.pro.text())
-        print(self.source.text())
-        print(self.dst.text())
+        self.search_text = self.line_search.text()
 
 
     def keyPressEvent(self, event):

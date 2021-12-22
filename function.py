@@ -21,6 +21,8 @@ def check_invalid(window, pro, src, src_port, dst, dst_port, num):
 
     if(str(window.m_data_info_list.src_port_list[num]) != src_port and src_port != ''):
         return True
+    
+    dst = dst.strip()
 
     if(window.m_data_info_list.dst_list[num] != dst and dst != ''):
         return True
@@ -30,9 +32,19 @@ def check_invalid(window, pro, src, src_port, dst, dst_port, num):
     
     return False
 
+def check_msg_not_in_detail(window, num):
+    search_str = window.search_text.strip()
+    if(search_str == ''):
+        return False
+    if(search_str in window.m_data_info_list.detail_info_utf8_list[num]):
+        return False
+    if(search_str in window.m_data_info_list.detail_info_gb_list[num]):
+        return False
+    return True
 
-def check_parameter_changed(a, a1, b, b1, c, c1, d, d1, e, e1):
-    if((a == a1) and (b == b1) and (c == c1) and (d == d1) and (e == e1)):
+
+def check_parameter_changed(a, a1, b, b1, c, c1, d, d1, e, e1, f, f1):
+    if((a == a1) and (b == b1) and (c == c1) and (d == d1) and (e == e1) and (f == f1)):
         return False
     return True
 
@@ -45,12 +57,13 @@ def data_info_table_listener(window):
     latest_src_port = window.parameter_src_port
     latest_dst = window.parameter_dst
     latest_dst_port = window.parameter_dst_port
+    latest_search_text  = window.search_text
 
     while(True):
         if(window.close_flag == True):
             break
         
-        if(check_parameter_changed(latest_pro, window.parameter_pro, latest_src, window.parameter_src, latest_src_port, window.parameter_src_port, latest_dst, window.parameter_dst, latest_dst_port, window.parameter_dst_port)):
+        if(check_parameter_changed(latest_pro, window.parameter_pro, latest_src, window.parameter_src, latest_src_port, window.parameter_src_port, latest_dst, window.parameter_dst, latest_dst_port, window.parameter_dst_port, latest_search_text, window.search_text)):
             cur_num = 0
             row_num = 0
             latest_pro = window.parameter_pro
@@ -58,12 +71,19 @@ def data_info_table_listener(window):
             latest_src_port = window.parameter_src_port
             latest_dst = window.parameter_dst
             latest_dst_port = window.parameter_dst_port
+            latest_search_text = window.search_text
             window.data_info_table.clear()
+            window.data_info_table.setHorizontalHeaderLabels(["No", "Time", "Source Address", "Destination Address", "Length", "Protocal"])
         
         if(cur_num < len(window.m_data_info_list.src_list)):
             if(check_invalid(window, latest_pro, latest_src, latest_src_port, latest_dst, latest_dst_port, cur_num)):
                 cur_num = cur_num + 1 
                 continue
+
+            if(check_msg_not_in_detail(window, cur_num)):
+                cur_num = cur_num + 1
+                continue
+
             window.data_info_table.insertRow(row_num)
             # tmp_time = time.time() - window.start_time
             # tmp_time = round(tmp_time, 4)
