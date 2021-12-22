@@ -14,6 +14,8 @@ def check_invalid(window, pro, src, src_port, dst, dst_port, num):
     if(dict_pro[window.m_data_info_list.pro_list[num]] != pro.upper() and pro != ''):
         return True
     
+    src = src.strip()
+    
     if(window.m_data_info_list.src_list[num] != src and src != ''):
         return True
 

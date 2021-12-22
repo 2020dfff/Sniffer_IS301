@@ -217,11 +217,14 @@ class main_window(QWidget):
         self.parameter_src_port = self.source_port.text()
         self.parameter_dst = self.dst.text()
         self.parameter_dst_port = self.dst_port.text()
-        # print("2:", self.parameter_src)
+        print("Yes")
+        print(self.pro.text())
+        print(self.source.text())
+        print(self.dst.text())
+
 
     def keyPressEvent(self, event):
-        if(event.key() ==  16777220):
-            # print("1:" + self.source.text())
+        if(event.key() ==  16777220 or event.key() == 16777221):
             self.update_parameter()
 
     def closeEvent(self, event):
