@@ -2,7 +2,7 @@ import sys
 import threading
 from scapy.all import *
 from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton,QHBoxLayout, QVBoxLayout, QGridLayout, QTableWidgetItem, QTabWidget
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton,QHBoxLayout, QVBoxLayout, QGridLayout, QTableWidgetItem, QTabWidget, QMessageBox
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QAbstractItemView
 from PyQt5.QtCore import Qt
@@ -233,7 +233,8 @@ class main_window(QWidget):
         self.search_text = self.line_search.text()
 
     def save_packets(self):
-        wrpcap("test.pcap", self.m_data_info_list.packet_list)
+        QMessageBox.information(self, "0ops!", "Save successfully!", QMessageBox.Yes)
+        wrpcap("output" + time.strftime("%Y%m%d%H%M%S", time.localtime()) + ".pcap", self.m_data_info_list.packet_list)
 
     def keyPressEvent(self, event):
         if(event.key() ==  16777220 or event.key() == 16777221):
