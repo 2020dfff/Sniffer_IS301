@@ -21,6 +21,12 @@ class main_window(QWidget):
         self.close_flag = False
         self.m_data_info_list = data_info_list()
         self.m_sniffer = sniffer()
+
+        self.parameter_pro = ''
+        self.parameter_src = ''
+        self.parameter_src_port = ''
+        self.parameter_dst = ''
+        self.parameter_dst_port = ''
         # self.src_list = []
         # self.dst_list = []
         # self.pro_list = []
@@ -178,7 +184,7 @@ class main_window(QWidget):
             # self.on_off_flag = 0;
 
     def display_detail_info(self):
-        num = self.data_info_table.selectedItems()[0].row()
+        num = int(self.data_info_table.selectedItems()[0].text())
         self.layer_info_tab.clear()
         self.detail_of_packet.clear()
 
@@ -204,6 +210,19 @@ class main_window(QWidget):
         temp_tab_text.setText(self.m_data_info_list.detail_info_gb_list[num])
         self.detail_of_packet.addTab(temp_tab_text, "GB2312")
         # self.detail_of_packet.setText(self.m_data_info_list.detail_info_gb_list[num])
+    
+    def update_parameter(self):
+        self.parameter_pro = self.pro.text()
+        self.parameter_src = self.source.text()
+        self.parameter_src_port = self.source_port.text()
+        self.parameter_dst = self.dst.text()
+        self.parameter_dst_port = self.dst_port.text()
+        # print("2:", self.parameter_src)
+
+    def keyPressEvent(self, event):
+        if(event.key() ==  16777220):
+            print("1:" + self.source.text())
+            # self.update_parameter()
 
     def closeEvent(self, event):
         self.close_flag = True

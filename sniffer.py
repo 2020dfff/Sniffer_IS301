@@ -46,11 +46,14 @@ class sniffer():
         #print("------------------")
         # tmp = to_hex(pkt)
         tmp = str(pkt)
+        tmp_time = time.time() - self.window.start_time
+        tmp_time = round(tmp_time, 4)
         # print("tmp = " + tmp)
         # print(tmp)
         # tmp = 0
         #print("------------------")
         self.window.m_data_info_list.append_hex_list(tmp)
+        self.window.m_data_info_list.append_time_list(tmp_time)
         flag = 0
         flag2 = 0
         if(Raw in pkt):

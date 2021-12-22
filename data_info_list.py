@@ -13,6 +13,7 @@ class data_info_list():
         self.detail_info_utf8_list = []
         self.detail_info_gb_list = []
         self.hex_list = []
+        self.time_list = []
 
     def append_src_list(self, src):
         self.src_list.append(src)
@@ -49,4 +50,6 @@ class data_info_list():
 
     def append_hex_list(self, hex_):
         self.hex_list.append(hex_)
-
+    
+    def append_time_list(self, time):
+        self.time_list.append(time)
