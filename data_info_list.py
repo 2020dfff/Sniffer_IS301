@@ -8,6 +8,8 @@ class data_info_list():
         self.layer_list = []
         self.field_list = []
         self.packet_list = []
+        self.detail_info_utf8_list = []
+        self.detail_info_gb_list = []
 
     def append_src_list(self, src):
         self.src_list.append(src)
@@ -29,3 +31,10 @@ class data_info_list():
 
     def append_packet_list(self, packet):
         self.packet_list.append(packet)
+
+    def append_detail_info_utf8_list(self, detail_info):
+        self.detail_info_utf8_list.append(detail_info)
+
+    def append_detail_info_gb_list(self, detail_info):
+        self.detail_info_gb_list.append(detail_info)
+

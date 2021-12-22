@@ -27,23 +27,42 @@ class sniffer():
                 # print(pkt['IP'].flags)
                 return
 
-            self.window.m_data_info_list.append_src_list(pkt['IP'].src)
-            self.window.m_data_info_list.append_dst_list(pkt['IP'].dst)
-            self.window.m_data_info_list.append_pro_list(pkt['IP'].proto)
-            self.window.m_data_info_list.append_len_list(pkt['IP'].len)
         else:
             return
+        
+        flag = 0
+        if(Raw in pkt):
+            try:
+                tmp1 = pkt[Raw].load.decode('utf-8')
+                tmp2 = pkt[Raw].load.decode('GB2312')
+                flag = 1
+            except:
+                pass
+            if(flag):
+                self.window.m_data_info_list.append_detail_info_utf8_list(tmp1)
+                self.window.m_data_info_list.append_detail_info_gb_list(tmp2)
+            else:
+                try:
+                    tmp1 = pkt[Raw].load[10:].decode('utf-8')
+                    tmp2 = pkt[Raw].load[10:].decode('GB2312')
+                    flag = 1
+                except:
+                    pass
 
+            if(flag):
+                self.window.m_data_info_list.append_detail_info_utf8_list(tmp1)
+                self.window.m_data_info_list.append_detail_info_gb_list(tmp2)
+            else:
+                self.window.m_data_info_list.append_detail_info_utf8_list('No extra information')
+                self.window.m_data_info_list.append_detail_info_gb_list('No extra information')
+        else:
+            self.window.m_data_info_list.append_detail_info_utf8_list('No extra information')
+            self.window.m_data_info_list.append_detail_info_gb_list('No extra information')
 
-        try:
-            # tmp = codecs.decode(bytes(pkt.load).hex(), "hex")
-            # print(pkt[Raw].load.decode('GB2312'))
-            print(pkt[Raw].load[10:].decode('GB2312'))
-            # print(tmp.decode('utf-8'))
-            # print(tmp.decode('GB2312'))
-        except:
-            pass
-
+        self.window.m_data_info_list.append_src_list(pkt['IP'].src)
+        self.window.m_data_info_list.append_dst_list(pkt['IP'].dst)
+        self.window.m_data_info_list.append_pro_list(pkt['IP'].proto)
+        self.window.m_data_info_list.append_len_list(pkt['IP'].len)
         self.window.m_data_info_list.append_packet_list(pkt)
         layer = []
         field = []
@@ -59,7 +78,7 @@ class sniffer():
         self.window.m_data_info_list.append_field_list(field)
         # print(self.window.m_data_info_list.layer_list[self.count])
         # print(self.window.m_data_info_list.field_list[self.count])
-        
+        print(self.window.m_data_info_list.detail_info_gb_list[self.count])
         self.count = self.count + 1
 
     def is_off(self, pkt):

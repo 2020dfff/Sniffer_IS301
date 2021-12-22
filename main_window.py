@@ -1,7 +1,7 @@
 import sys
 import threading
 from scapy.all import *
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton,QHBoxLayout, QVBoxLayout, QGridLayout, QTableWidgetItem
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton,QHBoxLayout, QVBoxLayout, QGridLayout, QTableWidgetItem, QTabWidget
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QAbstractItemView
 from PyQt5.QtCore import Qt
@@ -102,6 +102,7 @@ class main_window(QWidget):
         
         self.data_info_table = QtWidgets.QTableWidget()
         self.data_info_table.setColumnCount(6)
+        self.data_info_table.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.data_info_table.setHorizontalHeaderLabels(["No", "Time", "Source Address", "Destination Address", "Length", "Protocal"])
         self.data_info_table.setColumnWidth(0, 60);
         self.data_info_table.setColumnWidth(1, 100);
@@ -109,6 +110,7 @@ class main_window(QWidget):
         self.data_info_table.setColumnWidth(3, 240);
         self.data_info_table.setColumnWidth(4, 75);
         self.data_info_table.setColumnWidth(5, 90);
+        self.data_info_table.clicked.connect(self.display_detail_info)
 
         self.data_info_layout.addWidget(self.data_info_table)
 
@@ -118,19 +120,32 @@ class main_window(QWidget):
 # end of fourth row
 
 # fifth row of main_layout
+        self.layer_info_layout = QHBoxLayout()
+        
+        self.layer_info_tab = QtWidgets.QTabWidget()
+        
+        self.layer_info_layout.addWidget(self.layer_info_tab)
+
+
+# end of fifth row
+
+
+
+# sixth row of main_layout
 # detail information like header of packet
         self.detail_layout = QHBoxLayout()
 
         self.detail_of_packet = QtWidgets.QTextBrowser()
 
         self.detail_layout.addWidget(self.detail_of_packet)
-# end of fifth row
+# end of sixth row
 
         self.main_layout.addLayout(self.nic_info_layout, 0, 0)
         self.main_layout.addLayout(self.ip_info_layout, 1, 0)
         self.main_layout.addLayout(self.search_layout, 2, 0)
         self.main_layout.addLayout(self.data_info_layout, 3, 0)
-        self.main_layout.addLayout(self.detail_layout, 4, 0)
+        self.main_layout.addLayout(self.layer_info_layout, 4, 0)
+        self.main_layout.addLayout(self.detail_layout, 5, 0)
 
         self.setLayout(self.main_layout)
         self.setGeometry(300, 300, 815, 600)
@@ -149,3 +164,19 @@ class main_window(QWidget):
             self.on_off_button.setText("Start")
             self.m_sniffer.on_off_flag = 0;
             # self.on_off_flag = 0;
+
+    def display_detail_info(self):
+        num = self.data_info_table.selectedItems()[0].row()
+        self.layer_info_tab.clear()
+
+        i = 0
+        for x in self.m_data_info_list.layer_list[num]:
+            temp_tab_text = QtWidgets.QTextBrowser()
+            for key,value in self.m_data_info_list.field_list[num][i].items():
+                temp_tab_text.append(str(key) + ":   " + str(value))
+
+            # temp_tab_text.setText(str(self.m_data_info_list.field_list[num][i]))
+            self.layer_info_tab.addTab(temp_tab_text, x)
+            i = i + 1
+
+        self.detail_of_packet.setText(self.m_data_info_list.detail_info_gb_list[num])
