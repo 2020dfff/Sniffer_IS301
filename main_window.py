@@ -55,10 +55,14 @@ class main_window(QWidget):
         
         self.on_off_button = QPushButton("Start")
         self.on_off_button.clicked.connect(self.on_off)
+
+        self.save_button = QPushButton("Save")
+        self.save_button.clicked.connect(self.save_packets)
         
         # just for a test
         self.nic_info_layout.addWidget(self.label_nic, 0, 0, 1, 1)
-        self.nic_info_layout.addWidget(self.combo_box_nic, 0, 1, 1, 7)
+        self.nic_info_layout.addWidget(self.combo_box_nic, 0, 1, 1, 5)
+        self.nic_info_layout.addWidget(self.save_button, 0, 8, 1, 2)
         self.nic_info_layout.addWidget(self.on_off_button, 0, 10, 1, 2)
 # end of first row
 
@@ -168,7 +172,7 @@ class main_window(QWidget):
 
         self.setLayout(self.main_layout)
         self.setGeometry(300, 300, 815, 800)
-        self.setWindowTitle("Network")
+        self.setWindowTitle("EzSniffer")
         self.show()
 
     def on_off(self):
@@ -220,6 +224,8 @@ class main_window(QWidget):
         self.parameter_dst_port = self.dst_port.text()
         self.search_text = self.line_search.text()
 
+    def save_packets(self):
+        wrpcap("test.pcap", self.m_data_info_list.packet_list)
 
     def keyPressEvent(self, event):
         if(event.key() ==  16777220 or event.key() == 16777221):
