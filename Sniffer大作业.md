@@ -7,6 +7,10 @@
 > 本次项目的内容在如下的github仓库中：
 >
 > [2020dfff/Sniffer_IS301: Project on sniffer, course design(IS301). (github.com)](https://github.com/2020dfff/Sniffer_IS301)
+>
+> **项目分工：**
+> 朱文骏：完成了sniffer类的设计与实现，实现了包的过滤和查找功能，实现了保存包的功能，实现了IP分组重组。
+> 费扬：完成了页面的设计与实现，实现了对于data_info_table的监听更新功能，对软件进行了测试并撰写了实验报告。
 
 [TOC]
 
