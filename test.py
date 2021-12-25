@@ -59,35 +59,35 @@ class main_window(QWidget):
 
         self.ip_info_layout.addWidget(self.label_pro)
         self.ip_info_layout.addWidget(self.pro)
-        
+
         self.ip_info_layout.addWidget(self.label_source)
         self.ip_info_layout.addWidget(self.source)
-        
+
         self.ip_info_layout.addWidget(self.label_source_port)
         self.ip_info_layout.addWidget(self.source_port)
-        
+
         self.ip_info_layout.addWidget(self.label_dst)
         self.ip_info_layout.addWidget(self.dst)
-        
+
         self.ip_info_layout.addWidget(self.label_dst_port)
         self.ip_info_layout.addWidget(self.dst_port)
-        
+
 # end of second row
-        
+
 # third row of main_layout
 # search bar
         self.search_layout = QHBoxLayout()
-        
+
         self.line_search = QtWidgets.QLineEdit()
         self.line_search.setPlaceholderText("Search")
-        
+
         self.search_layout.addWidget(self.line_search)
 # end of third row
 
 # fourth row of main_layout
 # information of datagram
         self.data_info_layout = QHBoxLayout()
-        
+
         self.data_info_table = QtWidgets.QTableWidget()
         self.data_info_table.setColumnCount(6)
         self.data_info_table.setHorizontalHeaderLabels(["No", "Time", "Source Address", "Destination Address", "Length", "Protocal"])
@@ -105,7 +105,19 @@ class main_window(QWidget):
 # detail information like header of packet
         self.detail_layout = QHBoxLayout()
 
-        self.detail_of_packet = QtWidgets.QTextBrowser()
+        """tab1"""
+
+        """self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
+        self.tabWidget.setMinimumHeight(50)
+        self.tabWidget.setFont(QFont('Consolas', 10, QFont.Light))"""
+
+        self.detail_of_packet = QtWidgets.QTabWidget()
+        self.tabWidget.addTab(self.detail_of_packet,t1)
+        #self.detail_of_packet.create(self.tabWidget, "Whole in hex",1)
+                         # share.list_packet[val].hexdump())
+
+
+        #self.detail_of_packet = QtWidgets.QTextBrowser()
 
         self.detail_layout.addWidget(self.detail_of_packet)
 # end of fifth row

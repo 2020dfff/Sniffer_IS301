@@ -117,6 +117,7 @@ class main_window(QWidget):
         t.start()
 # end of fourth row
 
+
 # fifth row of main_layout
 # detail information like header of packet
         self.detail_layout = QHBoxLayout()

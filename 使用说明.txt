@@ -1,0 +1,12 @@
+EzSniffer使用说明：
+使用环境linux，配置需求pyqt5， scapy
+点击start按钮开始抓包，再次点击可以结束抓包
+可以根据协议，源地址，源端口，目的地址，目的端口来过滤包
+支持保存抓到的包文件，点击save按钮，会在当前目录下保存为output+当前时间.pcap，可以使用wireshark打开
+
+
+Python 3.6.9
+scapy                  2.4.5
+PyQt5                  5.15.4
+PyQt5-Qt5              5.15.2
+PyQt5-sip              12.9.0
